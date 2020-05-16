@@ -1,0 +1,22 @@
+{
+    "name": "task-async-loop",
+    "version": "1.0.0",
+    "description": "Asynchronously iterate a single task (sync/async/promises) with delay task exit; Loop can be defined with exit conditions",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "Task async loop"
+    ],
+    "author": "Paolo Denti <paolo.denti@gmail.com>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/paolodenti/task-loop.git"
+    },
+    "bugs": {
+        "url": "https://github.com/paolodenti/task-loop/issues"
+    },
+    "homepage": "https://github.com/paolodenti/task-loop#readme"
+}
