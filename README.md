@@ -114,7 +114,7 @@ taskAsyncLoop({
         setTimeout(() => {
             console.log(`loop at ${new Date().getTime()}`);
             next();
-        }, Math.floor(Math.random() * 3000)); // simulate random execution time
+        }, Math.floor(Math.random() * 3000)); // simulate execution time
     }
 });
 ```
@@ -138,7 +138,7 @@ taskAsyncLoop({
             } else {
                 stop(); // exit iteration
             }
-        }, Math.floor(Math.random() * 1000));
+        }, Math.floor(Math.random() * 1000)); // simulate execution time
     }
 });
 ```
@@ -158,7 +158,7 @@ taskAsyncLoop({
             setDelay(Math.floor(Math.random() * 5000));
 
             next(); // continue iteration
-        }, 1000);
+        }, Math.floor(Math.random() * 1000)); // simulate execution time
     }
 });
 ```
@@ -186,7 +186,7 @@ taskAsyncLoop({
             } catch {
                 stop(); // manage unexpected error exiting loop
             }
-        }, 1000);
+        }, Math.floor(Math.random() * 1000)); // simulate execution time
     }
 });
 ```
