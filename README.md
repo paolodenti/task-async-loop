@@ -1,6 +1,6 @@
 # Task async Loop
 
-**Task Async Loop** is a Node.js module, with no dependencies, that allows you to run sequentially, in an asynchronous loop, any synchronous/asynchronous/promise task.
+**Task Async Loop** is a Node.js module, with no dependencies, that allows you to run sequentially, in an asynchronous loop, any synchronous/asynchronous/promise based task.
 
 -   Each loop execution is started when the previous task execution stops.
 
@@ -8,9 +8,9 @@
 
 -   An exit loop condition function can be provided.
 
--   Iterations can be dynamically stopped during the execution task.
+-   Loop can be dynamically exited during the execution task.
 
--   Iteration delay can be changed dynamically during task execution.
+-   Sleep time after each iteration can be changed dynamically during task execution.
 
 ## Installation
 
@@ -27,7 +27,7 @@ where `options` is an object having the following properties:
 
 -   `delay`: delay between each loop, in milliseconds. The first loop has no initial delay.
 -   `data`: a shared object between `condition` and `executer` (see below).
--   `condition(data)`: an optional function returning `true` to keep executing the task, `false` to stop iterations. If not defined, the lopp will run forever.
+-   `condition(data)`: an optional function returning `true` to keep executing the task, `false` to stop iterations. If not defined, the loop will run forever.
 -   `executer(data, next, stop. setDelay)`: an optional function executing a task. If not specified, no action is executed. - `data` - `next` must to be called when the task ends, to get to the next iteration. - `stop` must be called to stop the iteration loop. - `setDelay` can be invoked to set a new delay dynamically.
 
 ## Examples
@@ -72,7 +72,7 @@ taskAsyncLoop({
 
 ### Loop a synchronous task #3
 
-Dynamic exit condition
+Dynamic loop exit condition
 
 ```js
 const taskAsyncLoop = require("task-async-loop");
@@ -111,7 +111,7 @@ taskAsyncLoop({
 
 ### Loop an asynchronous task #2
 
-Dynamic exit condition
+Dynamic loop exit condition
 
 ```js
 const taskAsyncLoop = require("task-async-loop");
@@ -135,7 +135,7 @@ taskAsyncLoop({
 
 ### Loop an asynchronous task #3
 
-Dynamic loop delay
+Dynamic sleep after each iteration
 
 ```js
 const taskAsyncLoop = require("task-async-loop");
@@ -206,7 +206,7 @@ taskAsyncLoop({
 });
 ```
 
-### Loop an Promise #2
+### Loop a Promise #2
 
 Run promise, with 1 second delay, exit on dynamic condition
 
@@ -240,7 +240,7 @@ taskAsyncLoop({
 
 ### HTTP Request Polling
 
-Execute a get request every 5 seconds
+Loop over ah http get request, with 5 seconds sleep between each request.
 
 ```js
 const taskAsyncLoop = require("task-async-loop");
@@ -263,7 +263,7 @@ taskAsyncLoop({
 
                 res.on("end", (d) => {
                     console.log(data);
-                    // The whole response has been received. go to next iteration
+                    // response received, keep iterating
                     next();
                 });
             }

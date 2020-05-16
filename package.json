@@ -1,7 +1,7 @@
 {
     "name": "task-async-loop",
-    "version": "1.0.0",
-    "description": "Asynchronously iterate a single task (sync/async/promises) with delay task exit; Loop can be defined with exit conditions",
+    "version": "1.0.1",
+    "description": "Asynchronously iterate a single task (sync/async/promises) with delay after each task execution and dynamic loop exit conditions.",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
