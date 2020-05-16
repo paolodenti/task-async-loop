@@ -114,7 +114,7 @@ taskAsyncLoop({
         setTimeout(() => {
             console.log(`loop at ${new Date().getTime()}`);
             next();
-        }, Math.random() * 3000); // simulate random execution time
+        }, Math.floor(Math.random() * 3000)); // simulate random execution time
     }
 });
 ```
