@@ -1,20 +1,24 @@
 # Task async Loop
 
-**Task Async Loop** is a Node.js module, with no dependencies, that allows you to run sequentially, in an asynchronous loop, any synchronous/asynchronous/promise based task.
+**Task Async Loop** is a Node.js module that allows you to run sequentially, in an asynchronous loop, any synchronous/asynchronous/promise based task.
 
--   Each loop execution is started when the previous task execution stops.
+-   Each loop execution is started when the previous execution stops, in strict sequence.
 
 -   An optional delay can be specified to sleep at the end of each iteration (e.g. for polling tasks).
 
 -   An exit loop condition function can be provided.
 
--   Loop can be dynamically exited during the execution task.
+-   Loop can be dynamically interrupted during the execution task.
 
 -   Sleep time after each iteration can be changed dynamically during task execution.
 
 ## Installation
 
 `npm install task-async-loop`
+
+## Dependencies
+
+None.
 
 ## Usage
 
@@ -27,8 +31,14 @@ where `options` is an object having the following properties:
 
 -   `delay`: delay between each loop, in milliseconds. The first loop has no initial delay.
 -   `data`: a shared object between `condition` and `executer` (see below).
--   `condition(data)`: an optional function returning `true` to keep executing the task, `false` to stop iterations. If not defined, the loop will run forever.
--   `executer(data, next, stop. setDelay)`: an optional function executing a task. If not specified, no action is executed. - `data` - `next` must to be called when the task ends, to get to the next iteration. - `stop` must be called to stop the iteration loop. - `setDelay` can be invoked to set a new delay dynamically.
+-   `condition(data)`: an optional function returning a boolean value:
+    -   `true` to keep executing the task (default value if `condition` is not defined, therefore looping forever).
+    -   `false` to stop iterations.
+-   `executer(data, next, stop. setDelay)`: an optional function executing a task. If not specified, no action is executed.
+    -   `data` the shared object
+    -   `next` must to be called when the task ends, to get to the next iteration.
+    -   `stop` must be called to stop the iteration loop.
+    -   `setDelay` can be invoked to set a new delay dynamically.
 
 ## Examples
 
@@ -43,7 +53,7 @@ taskAsyncLoop({
     executer: (data, next, stop, setDelay) => {
         console.log("loop");
 
-        next(); // keep iterating
+        next(); // continue iteration
     }
 });
 ```
@@ -65,7 +75,7 @@ taskAsyncLoop({
     executer: (data, next, stop, setDelay) => {
         console.log(`loop #${data.count}`);
 
-        next(); // keep iterating
+        next(); // continue iteration
     }
 });
 ```
@@ -82,17 +92,17 @@ taskAsyncLoop({
         const time = new Date().getTime();
         console.log(`loop at ${time}`);
 
-        // random exit condition
+        // simulate exit condition
         if (time % 4 !== 0) {
-            next(); // keep iterating
+            next(); // continue iteration
         } else {
-            stop(); // stop iterating
+            stop(); // exit iteration
         }
     }
 });
 ```
 
-### Loop a synchronous task #1
+### Loop an asynchronous task #1
 
 Run an async call, sleeping 2 seconds after each execution
 
@@ -104,7 +114,7 @@ taskAsyncLoop({
         setTimeout(() => {
             console.log(`loop at ${new Date().getTime()}`);
             next();
-        }, Math.random(1000)); // simulate random execution time
+        }, Math.random() * 3000); // simulate random execution time
     }
 });
 ```
@@ -122,13 +132,13 @@ taskAsyncLoop({
             const time = new Date().getTime();
             console.log(`loop at ${time}`);
 
-            // random exit condition
+            // simulate exit condition
             if (time % 4 != 0) {
-                next(); // keep iterating
+                next(); // continue iteration
             } else {
-                stop(); // stop iterating
+                stop(); // exit iteration
             }
-        }, Math.random(1000));
+        }, Math.floor(Math.random() * 1000));
     }
 });
 ```
@@ -141,13 +151,13 @@ Dynamic sleep after each iteration
 const taskAsyncLoop = require("task-async-loop");
 taskAsyncLoop({
     executer: (data, next, stop, setDelay) => {
-        console.log(`loop at ${new Date().getTime()}`);
-
-        // change loop delay for the next iteration
-        setDelay(Math.random(3000));
-
         setTimeout(() => {
-            next(); // keep iterating
+            console.log(`loop at ${new Date().getTime()}`);
+
+            // change loop delay for the next iteration
+            setDelay(Math.floor(Math.random() * 5000));
+
+            next(); // continue iteration
         }, 1000);
     }
 });
@@ -162,14 +172,14 @@ const taskAsyncLoop = require("task-async-loop");
 taskAsyncLoop({
     delay: 2000,
     executer: (data, next, stop, setDelay) => {
-        const time = new Date().getTime();
-        console.log(`loop at ${time}`);
-
         setTimeout(() => {
+            const time = new Date().getTime();
+            console.log(`loop at ${time}`);
+
             try {
                 // generate random error
                 if (time % 4 != 0) {
-                    next(); // keep iterating
+                    next(); // continue iteration
                 } else {
                     throw new Error();
                 }
@@ -263,7 +273,7 @@ taskAsyncLoop({
 
                 res.on("end", (d) => {
                     console.log(data);
-                    // response received, keep iterating
+                    // The whole response has been received. go to next iteration
                     next();
                 });
             }
