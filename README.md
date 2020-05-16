@@ -2,9 +2,9 @@
 
 **Task Async Loop** is a Node.js module that allows you to run sequentially, in an asynchronous loop, any synchronous/asynchronous/promise based task.
 
--   Each loop execution is started when the previous execution stops, in strict sequence.
+-   Each loop execution starts when the previous execution stops in a strict sequence.
 
--   An optional delay can be specified to sleep at the end of each iteration (e.g. for polling tasks).
+-   An optional delay can be specified to sleep at the end of each iteration (e.g., for polling tasks).
 
 -   An exit loop condition function can be provided.
 
@@ -35,10 +35,10 @@ where `options` is an object having the following properties:
     -   `true` to keep executing the task (default value if `condition` is not defined, therefore looping forever).
     -   `false` to stop iterations.
 -   `executer(data, next, stop. setDelay)`: an optional function executing a task. If not specified, no action is executed.
-    -   `data` the shared object
-    -   `next` must to be called when the task ends, to get to the next iteration.
-    -   `stop` must be called to stop the iteration loop.
-    -   `setDelay` can be invoked to set a new delay dynamically.
+    -   `data`: the shared object
+    -   `next`: must to be called when the task ends, to get to the next iteration.
+    -   `stop`: must be called to stop the iteration loop.
+    -   `setDelay`: can be invoked to set a new delay dynamically.
 
 ## Examples
 
@@ -250,7 +250,7 @@ taskAsyncLoop({
 
 ### HTTP Request Polling
 
-Loop over ah http get request, with 5 seconds sleep between each request.
+Loop over an http get request, with 5 seconds sleep between each request.
 
 ```js
 const taskAsyncLoop = require("task-async-loop");
