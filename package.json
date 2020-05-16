@@ -1,6 +1,6 @@
 {
     "name": "task-async-loop",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Asynchronously iterate a single task (sync/async/promises) with delay after each task execution and dynamic loop exit conditions.",
     "main": "index.js",
     "scripts": {
